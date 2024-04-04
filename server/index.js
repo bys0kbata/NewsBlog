@@ -26,18 +26,43 @@ app.get("/", (req, res, next)=>{
     res.end(`Привет, клиент. Ваш сервер работает! \n Это означает, что разработчик не криворукий(но это не точно).`);
 });
 app.get("/getall", async (req,res,next)=>{
+  try{
   const resSQL = await client.query(`SELECT * FROM "public"."News";`);
   res.send(resSQL.rows);
+}
+catch
+{
+  res.send(500);
+}
 
 });
 app.get("/getone",async (req,res,next)=>{
+  try{
   const idNews = req.headers.idnews;
   const resSQL = await client.query(`SELECT * FROM "public"."News" WHERE "idnews"=${idNews};`);
   res.send(resSQL.rows);
+  }
+catch
+{
+  res.send(500);
+}
 });
 app.post("/createnews", async (req,res,next)=>{
-  const idNews = req.body.idnews;
-  const resSQL = await client.query(`SELECT * FROM "public"."News" WHERE "idnews"=${idNews};`);
+  try{
+    const namenews = req.headers.namenews;
+    const textnews = req.headers.textnews;
+    const datapublish = req.headers.datapublish;
+    if(namenews && textnews && datapublish){
+    const resSQL = await client.query(`INSERT INTO "public"."News" ("namenews","textnews","datepublish") VALUES('${namenews}','${textnews}','${datapublish}')`);
+    res.send(200);}
+    else{
+      res.send(500);
+    }
+  }
+  catch
+  {
+    res.send(500);
+  }
 });
  
 app.listen(PORT, () => {
