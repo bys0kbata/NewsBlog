@@ -1,0 +1,49 @@
+.Main{ 
+    text-align: center;
+    color:chocolate;
+    display: flex;
+    flex-direction: column;
+    #btnAdd{
+        margin-left: 1.4vh;
+        margin-bottom: 1.4vh;
+        width: max-content;
+        border-color: #5B7DF3;
+        border-style:solid;
+        border-radius:20px;
+        background-color: white;
+        color:#5B7DF3;
+    }
+    #btnAdd:hover{
+        background-color: #5B7DF3;
+        color: white;
+    }
+    #btnAdd:active{
+        background-color: #FB6060;
+        border-color: #FB6060;
+        color: white;
+    }
+    .AllNews{
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        .OneNews{
+            border-color: #94D9EF;
+            border-style:solid;
+            width: max-content;
+            margin:0.3vw;
+            border-radius:20px;
+            padding:1vh;
+            color: #30827D;
+            background-color: white;
+        }
+        .OneNews:hover{
+            background-color: #94D9EF;
+            color: white;
+        }
+        .OneNews:active{
+            background-color: #FB6060;
+            border-color: #FB6060;
+            color: white;
+        }
+    }
+}
