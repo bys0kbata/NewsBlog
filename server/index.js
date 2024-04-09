@@ -14,6 +14,7 @@ const client = new pg.Client({
 await client.connect()
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
   const now = new Date();
   const datatime = `Дата: ${now.getDay()}.${now.getMonth()+1}.${now.getFullYear()} Время: ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
   const data = `${datatime} ${req.method} ${req.url}  ${req.socket.remoteAddress}`;

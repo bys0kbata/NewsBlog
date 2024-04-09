@@ -17,7 +17,7 @@ export default function Main(){
     console.log(`${IPServer}getall`);
     const OneNews = (props)=>{
         return(
-        <button className="OneNews">
+        <button className="OneNews" onClick={()=>{nav(`/news/${props.idnews}`)}}>
             <h3>{props.namenews}</h3>
             <h4>{props.datapublish}</h4>
         </button>)
@@ -26,7 +26,7 @@ export default function Main(){
         <div className="AllNews">{
         reqAllNews.map((reqOneNews)=>{
             return(
-                <OneNews namenews = {reqOneNews.namenews} datapublish = {reqOneNews.datepublish} />
+                <OneNews idnews={reqOneNews.idnews} namenews = {reqOneNews.namenews} datapublish = {reqOneNews.datepublish} />
             )
         })
         }

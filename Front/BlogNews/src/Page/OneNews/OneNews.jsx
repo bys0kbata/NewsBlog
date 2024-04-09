@@ -5,17 +5,23 @@ import "./OneNews.scss";
 
 export default function OneNews(){
     const [Info,setInfo]= useState();
-    const location = location.window.location.href
-    // useEffect(()=>{
-    //     axios.get(`${IPServer}getone`, )
-    //     .then((req)=>{
-    //         console.log(req);
-    //         setInfo(req.data);
-    //     })
-    // },[])
+    const href = window.location.href;
+    const idNews= href.match(/\d+$/);
+    const config ={headers:{
+        idnews:idNews
+    }}
+    useEffect(()=>{
+        axios.get(`${IPServer}getone`,config  )
+        .then((req)=>{
+            console.log(req);
+            setInfo(req.data[0]);
+        })
+    },[])
     return(
         <div className="OneNews">
-            Привет
+            <h1>{Info.namenews}</h1>
+            <h3>Дата публикаций: {Info.datepublish}</h3>
+            <h3>{Info.textnews}</h3>
         </div>
     )
 }
