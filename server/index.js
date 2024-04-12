@@ -11,6 +11,7 @@ const client = new pg.Client({
   password: '',
   port: 5432,
 })
+const urlencodedParser = express.urlencoded({extended: false});
 await client.connect()
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -33,7 +34,7 @@ app.get("/getall", async (req,res,next)=>{
 }
 catch
 {
-  res.send(500);
+  res.send((500).toString());
 }
 
 });
@@ -45,24 +46,20 @@ app.get("/getone",async (req,res,next)=>{
   }
 catch
 {
-  res.send(500);
+  res.send((500).toString());
 }
 });
-app.post("/createnews", async (req,res,next)=>{
+app.post("/createnews",urlencodedParser, async (req,res,next)=>{
   try{
     const namenews = req.headers.namenews;
     const textnews = req.headers.textnews;
     const datapublish = req.headers.datapublish;
     if(namenews && textnews && datapublish){
     const resSQL = await client.query(`INSERT INTO "public"."News" ("namenews","textnews","datepublish") VALUES('${namenews}','${textnews}','${datapublish}')`);
-    res.send(200);}
-    else{
-      res.send(500);
-    }
-  }
-  catch
-  {
-    res.send(500);
+    res.send((200).toString());}
+  } catch (error) {
+    console.error(error);
+
   }
 });
  

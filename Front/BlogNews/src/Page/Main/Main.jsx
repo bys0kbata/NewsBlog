@@ -1,20 +1,23 @@
-import { useEffect, useState } from "react";
-import { IPServer } from "../../config";
-import axios from "axios";
+import { useLayoutEffect, useState} from "react";
 import "./Main.scss";
 import { useNavigate } from "react-router-dom";
+import {Alert, CircularProgress} from "@mui/material";
+import {IPServer} from "../../config.js";
 
 export default function Main(){
-    const [reqAllNews,setAN] = useState([]);
+    const [reqAllNews,setAN] = useState(null);
     const nav = useNavigate();
-    useEffect(()=>{
-         axios.get(`${IPServer}getall`)
-        .then((req)=>{
-            console.log(req);
-            setAN(req.data);
-        })
-    },[])
-    console.log(`${IPServer}getall`);
+    const data = {
+        url:`${IPServer}getall`
+    }
+    useLayoutEffect(() => {
+        const worker = new Worker("./src/script/worker.js");
+        worker.onmessage = function(e) {
+            setAN(e.data);
+            worker.terminate();
+        };
+        worker.postMessage(data);
+    }, []);
     const OneNews = (props)=>{
         return(
         <button className="OneNews" onClick={()=>{nav(`/news/${props.idnews}`)}}>
@@ -33,11 +36,17 @@ export default function Main(){
         </div>
         )
     }
+    const getNews = ()=> {
+        if (reqAllNews) {
+            if (!reqAllNews.error) {
+                return (<AllNews/>)
+            } else return ( <Alert severity="error">Ошибка со стороны сервера. Перезагрузите страницу или попробойте позже.</Alert>)
+        } else return (<CircularProgress sx={{margin: "auto"}}/>)
+    }
     return(
         <div className="Main">
             <h1>Все Новости</h1>
-            <button id="btnAdd" onClick={(e)=>{e.preventDefault();nav("/addnews")}}>+</button>
-            <AllNews /> 
+            { getNews()}
         </div>
     )
 }

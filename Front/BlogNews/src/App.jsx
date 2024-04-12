@@ -1,10 +1,12 @@
-import { useState } from 'react'
-import RouterApp from './Router/RouterApp'
+import RouterApp from "./Router/RouterApp.jsx";
+
 
 function App() {
 
   return (
-    <RouterApp />
+    <>
+        <RouterApp />
+    </>
   )
 }
 
