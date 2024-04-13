@@ -1,8 +1,9 @@
 .Main{ 
     text-align: center;
-    color:chocolate;
+    color:white;
     display: flex;
     flex-direction: column;
+
     #btnAdd{
         margin-left: 1.4vh;
         margin-bottom: 1.4vh;
@@ -27,12 +28,11 @@
         flex-direction: row;
         flex-wrap: wrap;
         .OneNews{
-            border-color: #94D9EF;
-            border-style:solid;
+
             width: max-content;
             margin:0.3vw;
-            border-radius:20px;
-            padding:1vh;
+
+
             color: #30827D;
             background-color: white;
         }

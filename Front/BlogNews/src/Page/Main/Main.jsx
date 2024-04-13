@@ -1,7 +1,7 @@
 import { useLayoutEffect, useState} from "react";
 import "./Main.scss";
 import { useNavigate } from "react-router-dom";
-import {Alert, CircularProgress} from "@mui/material";
+import {Alert, Card, CardActionArea, CardContent, CardMedia, CircularProgress, Typography} from "@mui/material";
 import {IPServer} from "../../config.js";
 
 export default function Main(){
@@ -18,18 +18,33 @@ export default function Main(){
         };
         worker.postMessage(data);
     }, []);
-    const OneNews = (props)=>{
-        return(
-        <button className="OneNews" onClick={()=>{nav(`/news/${props.idnews}`)}}>
-            <h3>{props.namenews}</h3>
-            <h4>{props.datapublish}</h4>
-        </button>)
+    const OneNews2 = (props) =>{
+        return (
+    <Card className="OneNews" sx={{ maxWidth: 345 }} onClick={()=>{nav(`/news/${props.idnews}`)}}>
+        <CardActionArea>
+            <CardMedia
+                component="img"
+                height="140"
+                image="src/Page/Main/rossijskaya-gazeta.jpg_1990113833.jpg"
+                alt="green iguana"
+            />
+            <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                    {props.namenews}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                    {props.datapublish}
+                </Typography>
+            </CardContent>
+        </CardActionArea>
+    </Card>
+);
     }
     const AllNews = ()=>{return(
         <div className="AllNews">{
         reqAllNews.map((reqOneNews)=>{
             return(
-                <OneNews idnews={reqOneNews.idnews} namenews = {reqOneNews.namenews} datapublish = {reqOneNews.datepublish} />
+                <OneNews2 idnews={reqOneNews.idnews} namenews = {reqOneNews.namenews} datapublish = {reqOneNews.datepublish} />
             )
         })
         }

@@ -1,12 +1,15 @@
-.AddName{
-    form {
-        display: flex;
-        flex-direction: column;
-        justify-self: center;
-        align-items: center;
-        width: max-content;
-        height: max-content;
-        margin: auto;
-    }
+body{
+    background: #c6e0e0;
+    .AddName{
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-self: center;
+            align-items: center;
+            width: max-content;
+            height: max-content;
+            margin: auto;
+        }
 
+    }
 }

@@ -1,4 +1,4 @@
-import AddMain from "../Page/AddName/AddName";
+import AddMain from "../Page/AddName/AddName.jsx";
 import Main from "../Page/Main/Main";
 import OneNews from "../Page/OneNews/OneNews";
 import { Route,Routes } from "react-router-dom";

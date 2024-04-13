@@ -1,31 +1,61 @@
 import axios from "axios";
-import { useState } from "react"
+import {useEffect, useRef, useState} from "react"
 import { IPServer } from "../../config";
 import { useNavigate } from "react-router-dom";
 import "./AddName.scss"
-import {Box, Button, Paper, TextField, Typography} from "@mui/material";
+import {Alert, Box, Button, CircularProgress, Paper, TextField, Typography} from "@mui/material";
+import {green} from "@mui/material/colors";
 
 export default function AddMain(){
-
-    const [namenews, setNN] = useState("");
-    const [textnews, setTN] = useState("");
+    const [load, setLoad] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [namenews, setNN] = useState(null);
+    const [textnews, setTN] = useState(null);
     const nav = useNavigate();
     const now = new Date();
+    const timer = useRef();
     const datepublish = now.toLocaleDateString("de-DE");
     const data ={headers:{
-        namenews : namenews,
-        textnews : textnews,
+        namenews : encodeURI(namenews),
+        textnews : encodeURI(textnews),
         datapublish: datepublish
     }}
-    const GoRes =   ()=>{
+    useEffect(() => {
+        clearTimeout(timer.current);
+    }, []);
+    const buttonSx = {
+        ...(success && {
+            bgcolor: green[500],
+            '&:hover': {
+                bgcolor: green[700],
+            },
+        }),
+    };
+    const GoRes =    ()=>{
         if(textnews && namenews){
-        axios.post( `${IPServer}createnews`,"",data)
-            .then((res)=>{
+            setSuccess(false);
+            setLoad(true);
+            axios.post( `${IPServer}createnews`,"",data)
+            .then( (res) => {
                 console.log(res);
+                if (res.status == 200) {
+                    timer.current = setTimeout(() => {
+                        setSuccess(true);
+                        setLoad(false);
+                    }, 2000);
+                    timer.current = setTimeout(() => {
+                        nav("/")
+                    }, 3000);
+
+                }
             })}
+        else {
+            setVis(true)
+        }
     }
     console.log(data);
 
+  const  [Vis, setVis] = useState(false);
     return(
         <div className="AddName">
             <Box
@@ -66,8 +96,31 @@ export default function AddMain(){
                     onChange={(e)=>{setTN(e.target.value)}}
                     sx={{marginBottom:"1vh",marginTop:"1vh", width: "60vh"}}
                 />
+                {Vis && <Alert severity="error">Введите все необходимые данные.</Alert>}
                  <div>
-                    <Button variant="contained" onClick={(e)=>{e.preventDefault(); GoRes();}} sx={{marginRight:"1vh",marginTop:"1vh"}}>Добавить</Button>
+                     <Box sx={{ m: 1, position: 'relative' }}>
+                         <Button
+                             variant="contained"
+                             sx={buttonSx}
+                             disabled={load}
+                             onClick={(e)=>{e.preventDefault(); GoRes();}}
+                         >
+                            Добавить
+                         </Button>
+                         {load && (
+                             <CircularProgress
+                                 size={24}
+                                 sx={{
+                                     color: green[500],
+                                     position: 'absolute',
+                                     top: '50%',
+                                     left: '50%',
+                                     marginTop: '-12px',
+                                     marginLeft: '-12px',
+                                 }}
+                             />
+                         )}
+                     </Box>
                     <Button variant="outlined" color="error" onClick={(e)=>{e.preventDefault(); nav("/");}} sx={{marginLeft:"1vh",marginTop:"1vh"}}>Отмена</Button>
                 </div>
             </form>

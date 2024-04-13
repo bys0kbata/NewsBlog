@@ -51,9 +51,9 @@ catch
 });
 app.post("/createnews",urlencodedParser, async (req,res,next)=>{
   try{
-    const namenews = req.headers.namenews;
-    const textnews = req.headers.textnews;
-    const datapublish = req.headers.datapublish;
+    const namenews = decodeURI(req.headers.namenews);
+    const textnews = decodeURI(req.headers.textnews);
+    const datapublish = decodeURI(req.headers.datapublish);
     if(namenews && textnews && datapublish){
     const resSQL = await client.query(`INSERT INTO "public"."News" ("namenews","textnews","datepublish") VALUES('${namenews}','${textnews}','${datapublish}')`);
     res.send((200).toString());}
